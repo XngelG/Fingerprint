@@ -1,10 +1,13 @@
-import win_inet_pton
 from pyModbusTCP.client import ModbusClient
+import os
 
 with open('ipconfig.txt') as f:
     lines = f.readlines()
 ownIp = lines[0].strip()
-#cambiar IP al dispositivo
+os.system('sudo ifconfig eth0 down')
+os.system('sudo ifconfig eth0 '+ownIp)
+os.system('sudo ifconfig eth0 up')
+
 plcIp = lines[1].strip()
 f.close()
 c = ModbusClient(host=plcIp, port=502, unit_id=1, auto_open=True)
